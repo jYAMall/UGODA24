@@ -4,9 +4,23 @@ from django.contrib.auth import get_user_model
 from .serializers import UserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 
 User = get_user_model()
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_role(request):
+    user = request.user
+    role = request.data.get('role')
+    if role in ['customer', 'provider']:
+        user.role = role
+        user.save()
+        return Response({'status': 'success', 'role': role})
+    else:
+        return Response({'status': 'error', 'message': 'Invalid role'}, status=400)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

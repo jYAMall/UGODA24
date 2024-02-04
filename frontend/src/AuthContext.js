@@ -20,10 +20,15 @@ export function AuthProvider({ children }) {
         localStorage.removeItem('accessToken'); // Припускаючи, що ви також зберігаєте токен доступу
         setUser(null); // Очистіть стан користувача
     };
+
+    const setUserRole = (role) => {
+        setUser((currentUser) => ({ ...currentUser, role }));
+        // Також вам може знадобитися оновити дані в localStorage, якщо вони там зберігаються
+      };
     
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, setUserRole}}>
             {children}
         </AuthContext.Provider>
     );

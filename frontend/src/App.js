@@ -6,6 +6,8 @@ import { AuthProvider } from './AuthContext';
 import LoginForm from './components/LoginForm';
 import ProfilePage from './components/ProfilePage';
 import { useAuth } from './AuthContext';
+import CustomerPage from './components/CustomerPage'; // Сторінка для користувачів з роллю Customer
+import ProviderPage from './components/ProviderPage';
 
 function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -25,6 +27,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+          <Route path="/as_customer" element={<CustomerPage />} />
+          <Route path="/as_provider" element={<ProviderPage />} />  
           <Route path="/" element={<Navigate replace to="/login" />} />
         </Routes>
       </Router>
